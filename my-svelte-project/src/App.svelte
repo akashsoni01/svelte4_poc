@@ -1,23 +1,23 @@
 <script>
-  import { getRandomNumber } from "./utils.js";
+  let m = { x: 0, y: 0 };
 
-  let promise = getRandomNumber();
-
-  function handleClick() {
-    promise = getRandomNumber();
+  function handleMove(event) {
+    m.x = event.clientX;
+    m.y = event.clientY;
   }
 </script>
 
-<button on:click={handleClick}> generate random number </button>
+<div on:pointermove={handleMove}>
+  The pointer is at {m.x} x {m.y}
+</div>
 
-<!-- {#await promise}
-  <p>...waiting</p>
-{:then number}
-  <p>The number is {number}</p>
-{:catch error}
-  <p style="color: red">{error.message}</p>
-{/await} -->
-
-{#await promise then number}
-  <p>The number is {number}</p>
-{/await}
+<style>
+  div {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+  }
+</style>
