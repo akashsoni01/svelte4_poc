@@ -1,8 +1,8 @@
 <script>
   let count = 0;
+  $: doubled = count * 2;
 
   function increment() {
-    // event handler code goes here
     count += 1;
   }
 </script>
@@ -11,3 +11,5 @@
   Clicked {count}
   {count === 1 ? "time" : "times"}
 </button>
+
+<p>{count} doubled is {doubled}</p>
