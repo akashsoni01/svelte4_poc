@@ -14,13 +14,13 @@
 <h1 style="color: {selected}">Pick a colour</h1>
 
 <div>
-  {#each colors as color}
+  {#each colors as color, i}
     <button
       aria-current={selected === color}
       aria-label={color}
       style="background: {color}"
-      on:click={() => (selected = color)}
-    />
+      on:click={() => (selected = color)}>{i + 1}</button
+    >
   {/each}
 </div>
 
