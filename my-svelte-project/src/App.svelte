@@ -1,6 +1,6 @@
 <script>
-  let src = "/image.gif";
-  let name = "Rick Astley";
+  import Nested from "./Nested.svelte";
 </script>
 
-<img {src} alt="{name} dances." />
+<p>This is a paragraph.</p>
+<Nested />
