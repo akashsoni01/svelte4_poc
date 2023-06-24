@@ -1,6 +1,13 @@
 <script>
-  import Nested from "./Nested.svelte";
+  let count = 0;
+
+  function increment() {
+    // event handler code goes here
+    count += 1;
+  }
 </script>
 
-<p>This is a paragraph.</p>
-<Nested />
+<button on:click={increment}>
+  Clicked {count}
+  {count === 1 ? "time" : "times"}
+</button>
