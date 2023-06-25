@@ -1,46 +1,47 @@
 <script>
-  let questions = [
-    {
-      id: 1,
-      text: `Where did you go to school?`,
-    },
-    {
-      id: 2,
-      text: `What is your mother's name?`,
-    },
-    {
-      id: 3,
-      text: `What is another personal fact that an attacker could easily find with Google?`,
-    },
-  ];
+  let scoops = 1;
+  let flavours = [];
 
-  let selected;
-
-  let answer = "";
-
-  function handleSubmit() {
-    alert(
-      `answered question ${selected.id} (${selected.text}) with "${answer}"`
-    );
-  }
+  const formatter = new Intl.ListFormat("en", {
+    style: "long",
+    type: "conjunction",
+  });
 </script>
 
-<h2>Insecurity questions</h2>
+<h2>Size</h2>
 
-<form on:submit|preventDefault={handleSubmit}>
-  <select bind:value={selected} on:change={() => (answer = "")}>
-    {#each questions as question}
-      <option value={question}>
-        {question.text}
-      </option>
-    {/each}
-  </select>
+{#each [1, 2, 3] as number}
+  <label>
+    <input type="radio" name="scoops" value={number} bind:group={scoops} />
 
-  <input bind:value={answer} />
+    {number}
+    {number === 1 ? "scoop" : "scoops"}
+  </label>
+{/each}
 
-  <button disabled={!answer} type="submit"> Submit </button>
-</form>
+<h2>Flavours</h2>
 
-<p>
-  selected question {selected ? selected.id : "[waiting...]"}
-</p>
+{#each ["cookies and cream", "mint choc chip", "raspberry ripple"] as flavour}
+  <label>
+    <input
+      type="checkbox"
+      name="flavours"
+      value={flavour}
+      bind:group={flavours}
+    />
+
+    {flavour}
+  </label>
+{/each}
+
+{#if flavours.length === 0}
+  <p>Please select at least one flavour</p>
+{:else if flavours.length > scoops}
+  <p>Can't order more flavours than scoops!</p>
+{:else}
+  <p>
+    You ordered {scoops}
+    {scoops === 1 ? "scoop" : "scoops"}
+    of {formatter.format(flavours)}
+  </p>
+{/if}
