@@ -1,23 +1,20 @@
 <script>
-  import Box from "./Box.svelte";
+  import Card from "./Card.svelte";
 </script>
 
-<div class="boxes">
-  <Box --color="red" />
-  <Box --color="green" />
-  <Box --color="blue" />
-</div>
+<main>
+  <Card>
+    <!-- content goes here -->
+    <span>Patrick BATEMAN</span>
+    <span>Vice President</span>
+  </Card>
+</main>
 
-<!-- <style>
-  .boxes :global(.box:nth-child(1)) {
-    background-color: red;
+<style>
+  main {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    background: url(./wood.svg);
   }
-
-  .boxes :global(.box:nth-child(2)) {
-    background-color: green;
-  }
-
-  .boxes :global(.box:nth-child(3)) {
-    background-color: blue;
-  }
-</style> -->
+</style>
