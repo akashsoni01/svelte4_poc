@@ -1,22 +1,37 @@
 <script>
-  import AudioPlayer from "./AudioPlayer.svelte";
-  import { tracks } from "./tracks.js";
+  let w;
+  let h;
+  let size = 42;
+  let text = "edit this text";
 </script>
 
-<div class="centered">
-  {#each tracks as track}
-    <AudioPlayer {...track} />
-  {/each}
+<label>
+  <input type="range" bind:value={size} min="10" max="100" />
+  font size ({size}px)
+</label>
+
+<div bind:clientWidth={w} bind:clientHeight={h}>
+  <span style="font-size: {size}px" contenteditable>{text}</span>
+  <span class="size">{w} x {h}px</span>
 </div>
 
 <style>
-  .centered {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
-    gap: 0.5em;
-    max-width: 40em;
-    margin: 0 auto;
+  div {
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem;
+    background: hsla(15, 100%, 50%, 0.1);
+    border: 1px solid hsl(15, 100%, 50%);
+  }
+
+  .size {
+    position: absolute;
+    right: -1px;
+    bottom: -1.4em;
+    line-height: 1;
+    background: hsl(15, 100%, 50%);
+    color: white;
+    padding: 0.2em 0.5em;
+    white-space: pre;
   }
 </style>
