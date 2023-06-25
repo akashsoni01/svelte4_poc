@@ -1,141 +1,99 @@
 <script>
-  import Canvas from "./Canvas.svelte";
-  import { trapFocus } from "./actions.js";
-
-  const colors = [
-    "red",
-    "orange",
-    "yellow",
-    "green",
-    "blue",
-    "indigo",
-    "violet",
-    "white",
-    "black",
-  ];
-  let selected = colors[0];
-  let size = 10;
-
-  let showMenu = true;
-
-  let canvas;
+  let flipped = false;
 </script>
 
 <div class="container">
-  <Canvas color={selected} {size} bind:this={canvas} />
-
-  {#if showMenu}
-    <div
-      class="modal-background"
-      on:click|self={() => (showMenu = false)}
-      on:keydown={(e) => {
-        if (e.key === "Escape") showMenu = false;
-      }}
-    >
-      <div class="menu" use:trapFocus>
-        <div class="colors">
-          {#each colors as color}
-            <button
-              class="color"
-              aria-label={color}
-              aria-current={selected === color}
-              style="--color: {color}"
-              on:click={() => {
-                selected = color;
-              }}
-            />
-          {/each}
-        </div>
-        <button on:click={() => canvas.clear()}> clear </button>
-
-        <label>
-          small
-          <input type="range" bind:value={size} min="1" max="50" />
-          large
-        </label>
-      </div>
+  Flip the card
+  <button class="card" class:flipped on:click={() => (flipped = !flipped)}>
+    <div class="front">
+      <span class="symbol">♠</span>
     </div>
-  {/if}
-
-  <div class="controls">
-    <button class="show-menu" on:click={() => (showMenu = !showMenu)}>
-      {showMenu ? "close" : "menu"}
-    </button>
-  </div>
+    <div class="back">
+      <div class="pattern" />
+    </div>
+  </button>
 </div>
 
 <style>
   .container {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .controls {
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: 1em;
-  }
-
-  .show-menu {
-    width: 5em;
-  }
-
-  .modal-background {
-    position: fixed;
     display: flex;
+    flex-direction: column;
+    gap: 1em;
+    height: 100%;
+    align-items: center;
     justify-content: center;
+    perspective: 100vh;
+  }
+
+  .card {
+    position: relative;
+    aspect-ratio: 2.5 / 3.5;
+    font-size: min(1vh, 0.25rem);
+    height: 80em;
+    background: var(--bg-1);
+    border-radius: 2em;
+    transform: rotateY(180deg);
+    transition: transform 0.4s;
+    transform-style: preserve-3d;
+    padding: 0;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .card.flipped {
+    transform: rotateY(0);
+  }
+
+  .front,
+  .back {
+    display: flex;
     align-items: center;
-    left: 0;
-    top: 0;
+    justify-content: center;
+    position: absolute;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(20px);
-  }
-
-  .menu {
-    position: relative;
-    background: var(--bg-2);
-    width: calc(100% - 2em);
-    max-width: 28em;
-    padding: 1em 1em 0.5em 1em;
-    border-radius: 1em;
+    left: 0;
+    top: 0;
+    backface-visibility: hidden;
+    border-radius: 2em;
+    border: 1px solid var(--fg-2);
     box-sizing: border-box;
-    user-select: none;
+    padding: 2em;
   }
 
-  .colors {
-    display: grid;
-    align-items: center;
-    grid-template-columns: repeat(9, 1fr);
-    grid-gap: 0.5em;
+  .front {
+    background: url(./svelte-logo.svg) no-repeat 5em 5em,
+      url(./svelte-logo.svg) no-repeat calc(100% - 5em) calc(100% - 5em);
+    background-size: 8em 8em, 8em 8em;
   }
 
-  .color {
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: var(--color, #fff);
-    transform: none;
-    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.2));
-    transition: all 0.1s;
+  .back {
+    transform: rotateY(180deg);
   }
 
-  .color[aria-current="true"] {
-    transform: translate(1px, 1px);
-    filter: none;
-    box-shadow: inset 3px 3px 4px rgba(0, 0, 0, 0.2);
+  .symbol {
+    font-size: 30em;
+    color: var(--fg-1);
   }
 
-  .menu label {
-    display: flex;
+  .pattern {
     width: 100%;
-    margin: 1em 0 0 0;
-  }
-
-  .menu input {
-    flex: 1;
+    height: 100%;
+    background-color: var(--bg-2);
+    /* pattern from https://projects.verou.me/css3patterns/#marrakesh */
+    background-image: radial-gradient(var(--bg-3) 0.9em, transparent 1em),
+      repeating-radial-gradient(
+        var(--bg-3) 0,
+        var(--bg-3) 0.4em,
+        transparent 0.5em,
+        transparent 2em,
+        var(--bg-3) 2.1em,
+        var(--bg-3) 2.5em,
+        transparent 2.6em,
+        transparent 5em
+      );
+    background-size: 3em 3em, 9em 9em;
+    background-position: 0 0;
+    border-radius: 1em;
   }
 </style>
