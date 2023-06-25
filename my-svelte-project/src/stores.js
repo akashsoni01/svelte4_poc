@@ -1,18 +1,14 @@
-import { readable, derived } from 'svelte/store';
+import { writable } from 'svelte/store';
 
-export const time = readable(new Date(), function start(set) {
-    const interval = setInterval(() => {
-        set(new Date());
-    }, 1000);
+function createCount() {
+    const { subscribe, set, update } = writable(0);
 
-    return function stop() {
-        clearInterval(interval);
+    return {
+        subscribe,
+        increment: () => update((n) => n + 1),
+        decrement: () => update((n) => n - 1),
+        reset: () => set(0)
     };
-});
+}
 
-const start = new Date();
-
-export const elapsed = derived(
-    time,
-    ($time) => Math.round(($time - start) / 1000)
-);
+export const count = createCount();
