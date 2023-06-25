@@ -1,42 +1,26 @@
 <script>
-  import { slide } from "svelte/transition";
+  import { onMount } from "svelte";
+  import { typewriter } from "./transition.js";
+  import { messages } from "./loading-messages.js";
 
-  let showItems = true;
-  let i = 5;
-  let items = [
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine",
-    "ten",
-  ];
+  let i = -1;
+
+  onMount(() => {
+    const interval = setInterval(() => {
+      i += 1;
+      i %= messages.length;
+    }, 2500);
+
+    return () => {
+      clearInterval(interval);
+    };
+  });
 </script>
 
-<label>
-  <input type="checkbox" bind:checked={showItems} />
-  show list
-</label>
+<h1>loading...</h1>
 
-<label>
-  <input type="range" bind:value={i} max="10" />
-</label>
-
-{#if showItems}
-  {#each items.slice(0, i) as item}
-    <div transition:slide|local>
-      {item}
-    </div>
-  {/each}
-{/if}
-
-<style>
-  div {
-    padding: 0.5em 0;
-    border-top: 1px solid #eee;
-  }
-</style>
+{#key i}
+  <p in:typewriter={{ speed: 1 }}>
+    {messages[i] || ""}
+  </p>
+{/key}
