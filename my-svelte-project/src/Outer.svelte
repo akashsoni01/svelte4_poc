@@ -1,6 +1,13 @@
 <script>
-    import Inner from "./Inner.svelte";
+    import BigRedButton from "./BigRedButton.svelte";
+    import horn from "./horn.mp3";
+
+    const audio = new Audio();
+    audio.src = horn;
+
+    function handleClick() {
+        audio.play();
+    }
 </script>
 
-<Inner />
-<Inner on:message />
+<BigRedButton on:click={handleClick} />

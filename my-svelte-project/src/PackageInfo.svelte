@@ -2,7 +2,7 @@
     export let name;
     export let version;
     export let speed;
-    export let website;
+    let website;
 
     $: href = `https://www.npmjs.com/package/${name}`;
 </script>
