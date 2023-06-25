@@ -1,25 +1,16 @@
 <script>
-  import tippy from "tippy.js";
-  import "tippy.js/dist/tippy.css";
-  import "tippy.js/themes/material.css";
-
-  let content = "Hello!";
-
-  function tooltip(node, options) {
-    const tooltip = tippy(node, options);
-
-    return {
-      update(options) {
-        tooltip.setProps(options);
-      },
-
-      destroy() {
-        tooltip.destroy();
-      },
-    };
-  }
+  let html = "<p>Write some text!</p>";
 </script>
 
-<input bind:value={content} />
+<div bind:innerHTML={html} contenteditable />
+<!-- <div bind:textContent={html} contenteditable /> -->
 
-<button use:tooltip={{ content, theme: "material" }}> Hover me </button>
+<pre>{html}</pre>
+
+<style>
+  [contenteditable] {
+    padding: 0.5em;
+    border: 1px solid #eee;
+    border-radius: 4px;
+  }
+</style>
