@@ -8,6 +8,10 @@
     let context;
     let previous;
 
+    export function clear() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
     function get_coords(e) {
         const { clientX, clientY } = e;
         const { left, top } = canvas.getBoundingClientRect();

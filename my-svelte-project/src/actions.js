@@ -27,7 +27,6 @@ export function trapFocus(node) {
 
     focusable()[0]?.focus();
 
-    // TODO finish writing the action
     node.addEventListener('keydown', handleKeydown);
 
     return {
@@ -36,5 +35,4 @@ export function trapFocus(node) {
             previous?.focus();
         }
     };
-
 }
