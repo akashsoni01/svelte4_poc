@@ -1,47 +1,72 @@
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+  import { spring } from "svelte/motion";
+
+  let coords = spring(
+    { x: 50, y: 50 },
+    {
+      stiffness: 0.1,
+      damping: 0.25,
+    }
+  );
+  let size = spring(10);
 </script>
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
+<svg
+  on:mousemove={(e) => {
+    coords.set({ x: e.clientX, y: e.clientY });
+  }}
+  on:mousedown={() => size.set(30)}
+  on:mouseup={() => size.set(10)}
+>
+  <circle cx={$coords.x} cy={$coords.y} r={$size} />
+</svg>
 
-  <div class="card">
-    <Counter />
-  </div>
+<div class="controls">
+  <label>
+    <h3>stiffness ({coords.stiffness})</h3>
+    <input
+      bind:value={coords.stiffness}
+      type="range"
+      min="0.01"
+      max="1"
+      step="0.01"
+    />
+  </label>
 
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
-</main>
+  <label>
+    <h3>damping ({coords.damping})</h3>
+    <input
+      bind:value={coords.damping}
+      type="range"
+      min="0.01"
+      max="1"
+      step="0.01"
+    />
+  </label>
+</div>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
+  svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
   }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+
+  circle {
+    fill: #ff3e00;
   }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
+
+  .controls {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    width: 200px;
+    user-select: none;
   }
-  .read-the-docs {
-    color: #888;
+
+  .controls input {
+    width: 100%;
   }
 </style>
