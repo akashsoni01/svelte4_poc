@@ -1,37 +1,35 @@
 <script>
-  let w;
-  let h;
-  let size = 42;
-  let text = "edit this text";
+  import { onMount } from "svelte";
+  import { paint } from "./gradient.js";
+  let canvas;
+
+  onMount(() => {
+    const context = canvas.getContext("2d");
+
+    let frame = requestAnimationFrame(function loop(t) {
+      frame = requestAnimationFrame(loop);
+      paint(context, t);
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+    };
+  });
 </script>
 
-<label>
-  <input type="range" bind:value={size} min="10" max="100" />
-  font size ({size}px)
-</label>
-
-<div bind:clientWidth={w} bind:clientHeight={h}>
-  <span style="font-size: {size}px" contenteditable>{text}</span>
-  <span class="size">{w} x {h}px</span>
-</div>
+<canvas width={32} height={32} bind:this={canvas} />
 
 <style>
-  div {
-    position: relative;
-    display: inline-block;
-    padding: 0.5rem;
-    background: hsla(15, 100%, 50%, 0.1);
-    border: 1px solid hsl(15, 100%, 50%);
-  }
-
-  .size {
-    position: absolute;
-    right: -1px;
-    bottom: -1.4em;
-    line-height: 1;
-    background: hsl(15, 100%, 50%);
-    color: white;
-    padding: 0.2em 0.5em;
-    white-space: pre;
+  canvas {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #666;
+    mask: url(./svelte-logo-mask.svg) 50% 50% no-repeat;
+    mask-size: 60vmin;
+    -webkit-mask: url(./svelte-logo-mask.svg) 50% 50% no-repeat;
+    -webkit-mask-size: 60vmin;
   }
 </style>
