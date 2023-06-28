@@ -19,7 +19,7 @@
 
     <div class="content">
         {#each data.filter(matches) as item}
-            <slot />
+            <slot {item} />
         {/each}
     </div>
 </div>

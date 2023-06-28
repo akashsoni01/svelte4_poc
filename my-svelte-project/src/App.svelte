@@ -1,12 +1,9 @@
 <script>
   import FilterableList from "./FilterableList.svelte";
   import { colors } from "./colors.js";
-
-  let row = colors[0];
-  let: item = { row };
 </script>
 
-<FilterableList data={colors} field="name">
+<FilterableList data={colors} field="name" let:item={row}>
   <header slot="header" class="row">
     <span class="color" />
     <span class="name">name</span>
@@ -40,6 +37,10 @@
   }
 
   .row:not(header):hover {
+    background: var(--bg-2);
+  }
+
+  .row:hover {
     background: var(--bg-2);
   }
 
