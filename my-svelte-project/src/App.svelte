@@ -18,11 +18,17 @@
       >358 Exchange Place, New York, N.Y. 100099 fax 212 555 6390 telex 10 4534</span
     >
   </Card>
+
+  <Card />
 </main>
 
 <style>
   main {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2em;
+    grid-template-rows: 1fr 1fr;
     place-items: center;
     height: 100%;
     background: url(./wood.svg);
@@ -32,5 +38,11 @@
     display: block;
     font-size: 0.6em;
     text-align: right;
+  }
+
+  @media (min-aspect-ratio: 3.5 / 2) {
+    main {
+      flex-direction: row;
+    }
   }
 </style>
