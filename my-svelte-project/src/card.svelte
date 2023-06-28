@@ -1,6 +1,14 @@
 <div class="card">
-    <!-- slot goes here -->
-    <!-- <slot /> -->
+    <header>
+        <slot name="telephone" />
+        <slot name="company" />
+    </header>
+
+    <slot />
+
+    <footer>
+        <slot name="address" />
+    </footer>
 </div>
 
 <style>
@@ -47,4 +55,9 @@
         justify-content: center;
         align-items: end;
     }
+    /* .card :global(small) {
+        display: block;
+        font-size: 0.6em;
+        text-align: right;
+    } */
 </style>
