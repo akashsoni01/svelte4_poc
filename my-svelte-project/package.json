@@ -14,6 +14,6 @@
     "vite": "^4.3.9"
   },
   "dependencies": {
-    "@sveltejs/kit": "^1.27.7"
+    "svelte-routing": "^2.10.0"
   }
 }
